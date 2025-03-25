@@ -1184,6 +1184,12 @@ pub fn add_args<'a>(app: App<'a, 'a>, default_args: &'a DefaultArgs) -> App<'a, 
             .help("Еnable Geyser interface even if no Geyser configs are specified."),
     )
     .arg(
+        Arg::with_name("geyser_plugin_skip_snapshot_restore_notifications")
+            .long("geyser-plugin-skip-snapshot-restore-notifications")
+            .takes_value(false)
+            .help("Skip sending account notifications to Geyser plugins during snapshot restore"),
+    )
+    .arg(
         Arg::with_name("snapshot_archive_format")
             .long("snapshot-archive-format")
             .alias("snapshot-compression") // Legacy name used by Solana v1.5.x and older

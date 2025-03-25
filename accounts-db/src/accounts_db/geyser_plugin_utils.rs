@@ -3,6 +3,7 @@ use {
         accounts_db::{AccountStorageEntry, AccountsDb},
         accounts_update_notifier_interface::AccountsUpdateNotifierInterface,
     },
+    log::info,
     solana_account::AccountSharedData,
     solana_clock::Slot,
     solana_measure::meas_dur,
@@ -62,6 +63,7 @@ impl AccountsDb {
 
         let mut notify_stats = GeyserPluginNotifyAtSnapshotRestoreStats::default();
         if accounts_update_notifier.snapshot_notifications_enabled() {
+            info!("Starting Geyser plugin account snapshot restore notifications");
             let mut slots = self.storage.all_slots();
             slots.sort_unstable_by_key(|&slot| Reverse(slot));
             slots
@@ -71,6 +73,8 @@ impl AccountsDb {
                     Self::notify_accounts_in_storage(accounts_update_notifier.as_ref(), &storage)
                 })
                 .for_each(|stats| notify_stats += stats);
+        } else {
+            info!("Skipping Geyser plugin account snapshot restore notifications (disabled in config)");
         }
 
         accounts_update_notifier.notify_end_of_restore_from_snapshot();

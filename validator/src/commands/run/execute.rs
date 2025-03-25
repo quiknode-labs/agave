@@ -671,6 +671,7 @@ pub fn execute(
         },
         on_start_geyser_plugin_config_files,
         geyser_plugin_always_enabled: matches.is_present("geyser_plugin_always_enabled"),
+        geyser_plugin_skip_snapshot_restore_notifications: matches.is_present("geyser_plugin_skip_snapshot_restore_notifications"),
         rpc_addrs: value_t!(matches, "rpc_port", u16).ok().map(|rpc_port| {
             (
                 SocketAddr::new(rpc_bind_address, rpc_port),
